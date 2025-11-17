@@ -9,6 +9,7 @@ from frontend import init_frontend
 
 @asynccontextmanager
 async def lifespan(backend: FastAPI):
+    """An async context manager for the application that initializes the database on startup."""
     print("INFO:     Initializing database...")
     init_db.init()
     print("INFO:     Database initialization complete.")

@@ -9,7 +9,7 @@ def dashboard_frame(title: str):
     """
     A layout for all protected dashboard pages.
     - It checks for authentication and redirects to /login if the user is not logged in.
-    - It provides a consistent header and a full-height drawer.
+    - It provides a consistent header/footer and a full-height drawer.
     """
     if not state.get_auth():
         ui.navigate.to("/login")

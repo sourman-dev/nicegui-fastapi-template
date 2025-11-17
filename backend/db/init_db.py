@@ -6,6 +6,8 @@ from backend.db.session import engine
 
 
 def init() -> None:
+    """Initializes the database, creating all necessary tables
+    and ensuring the first superuser account is created."""
     SQLModel.metadata.create_all(engine)
 
     with Session(engine) as session:

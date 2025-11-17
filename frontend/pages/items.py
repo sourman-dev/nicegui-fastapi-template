@@ -2,7 +2,7 @@ import httpx
 from nicegui import ui
 from frontend import state
 from frontend.components import notifications
-from frontend.layouts.dashboard import dashboard_frame
+from frontend.layouts.default import dashboard_frame
 
 
 @ui.page("/items")

@@ -13,6 +13,8 @@ def read_items(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Any:
+    """Retrieves a list of items, either all items for a superuser or
+    only the items belonging to the current user."""
     if current_user.is_superuser:
         items = item_repo.get_multi(db)
     else:
@@ -27,6 +29,8 @@ def create_item(
     item_in: models.ItemCreate,
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Any:
+    """Creates a new item for the current user,
+    checking first if an item with the same title already exists for that user."""
     existing_item = item_repo.get_by_title_and_owner(
         db=db, title=item_in.title, owner_id=current_user.id
     )

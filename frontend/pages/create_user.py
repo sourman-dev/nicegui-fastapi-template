@@ -1,7 +1,7 @@
 import httpx
 from nicegui import app, ui
 from frontend import state
-from frontend.layouts.dashboard import dashboard_frame
+from frontend.layouts.default import dashboard_frame
 from frontend.components.form_helpers import enable_button_on_user_inputs
 from frontend.components import notifications
 

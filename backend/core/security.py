@@ -10,6 +10,7 @@ ALGORITHM = "HS256"
 
 
 def create_access_token(subject: str | Any, expires_delta: timedelta = None) -> str:
+    """Generates a JWT access token for a specific user ID with a defined expiration time."""
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
     else:
@@ -22,8 +23,10 @@ def create_access_token(subject: str | Any, expires_delta: timedelta = None) -> 
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Compares a plain text password with a hashed password to check for a match."""
     return pwd_context.verify(plain_password, hashed_password)
 
 
 def get_password_hash(password: str) -> str:
+    """Computes the bcrypt hash of a plain text password."""
     return pwd_context.hash(password)

@@ -17,6 +17,8 @@ def create_user(
         deps.get_current_active_superuser
     ),  # 403 if not superuser
 ) -> Any:
+    """Creates a new user, a function restricted to superusers,
+    and prevents the creation of users with duplicate email addresses."""
     user = user_repo.get_by_email(db, email=user_in.email)
     if user:
         raise HTTPException(

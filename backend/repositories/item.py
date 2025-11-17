@@ -5,11 +5,13 @@ from backend.models.models import Item, ItemCreate, ItemUpdate
 
 class ItemRepository:
     def get(self, db: Session, id: int) -> Optional[Item]:
+        """Retrieves a single item from the database by its primary key ID."""
         return db.get(Item, id)
 
     def get_by_title_and_owner(
         self, db: Session, *, title: str, owner_id: int
     ) -> Optional[Item]:
+        """Fetches an item based on its title and the ID of its owner."""
         return db.exec(
             select(Item).where(Item.title == title, Item.owner_id == owner_id)
         ).first()
@@ -17,6 +19,7 @@ class ItemRepository:
     def create_with_owner(
         self, db: Session, *, obj_in: ItemCreate, owner_id: int
     ) -> Item:
+        """Creates a new item in the database, assigning it to a specific owner."""
         db_obj = Item(**obj_in.dict(), owner_id=owner_id)
         db.add(db_obj)
         db.commit()
@@ -26,16 +29,19 @@ class ItemRepository:
     def get_multi_by_owner(
         self, db: Session, *, owner_id: int, skip: int = 0, limit: int = 100
     ):
+        """Retrieves all items associated with a specific owner, with options for pagination."""
         return db.exec(
             select(Item).where(Item.owner_id == owner_id).offset(skip).limit(limit)
         ).all()
 
     def get_multi(self, db: Session, *, skip: int = 0, limit: int = 100):
+        """Retrieves a list of all items, with options for pagination."""
         return db.exec(select(Item).offset(skip).limit(limit)).all()
 
     def update(
         self, db: Session, *, db_obj: Item, obj_in: Union[ItemUpdate, Dict[str, Any]]
     ) -> Item:
+        """Updates the attributes of an existing item in the database."""
         if isinstance(obj_in, dict):
             update_data = obj_in
         else:
@@ -50,6 +56,7 @@ class ItemRepository:
         return db_obj
 
     def remove(self, db: Session, *, id: int) -> Item:
+        """Deletes a specific item from the database by its ID."""
         obj = db.get(Item, id)
         db.delete(obj)
         db.commit()
