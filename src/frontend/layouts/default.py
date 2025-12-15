@@ -28,7 +28,7 @@ def dashboard_frame(title: str):
     create_header(left_drawer, title)
 
     # TODO: Extract into a reusable component
-    with ui.left_drawer(value=True, elevated=True).classes("bg-white") as left_drawer:
+    with left_drawer:
         with ui.column().classes("w-full h-full flex flex-col justify-between no-wrap"):
             with ui.list().classes("w-full"):
                 with (
