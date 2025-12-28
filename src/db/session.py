@@ -3,7 +3,9 @@ from contextlib import contextmanager
 
 from src.core.config import settings
 
-engine = create_engine(settings.DATABASE_URL, echo=True)
+# SQLite requires check_same_thread=False for multi-threaded access (NiceGUI uses threads)
+connect_args = {"check_same_thread": False} if settings.DATABASE_URL.startswith("sqlite") else {}
+engine = create_engine(settings.DATABASE_URL, echo=True, connect_args=connect_args)
 
 
 def get_db():

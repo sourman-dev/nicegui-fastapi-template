@@ -1,10 +1,6 @@
 from typing import Optional
 from sqlmodel import Field, Relationship, SQLModel
 
-from src.core.config import settings
-
-TABLE_ARGS = {"schema": settings.SCHEMA_NAME}
-
 
 class UserBase(SQLModel):
     """Establishes the fundamental fields common to all user-related models,
@@ -31,8 +27,6 @@ class User(UserBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     hashed_password: str
     items: list["Item"] = Relationship(back_populates="owner")
-
-    __table_args__ = TABLE_ARGS
 
 
 class UserRead(UserBase):
@@ -69,14 +63,10 @@ class Item(ItemBase, table=True):
 
     id: Optional[int] = Field(default=None, primary_key=True)
     title: str
-    owner_id: Optional[int] = Field(
-        default=None, foreign_key=f"{settings.SCHEMA_NAME}.user.id"
-    )
+    owner_id: Optional[int] = Field(default=None, foreign_key="user.id")
     owner: Optional["User"] = Relationship(
         back_populates="items", sa_relationship_kwargs={"foreign_keys": "Item.owner_id"}
     )
-
-    __table_args__ = TABLE_ARGS
 
 
 class ItemRead(ItemBase):
